@@ -1,7 +1,26 @@
-var makeBinarySearchTree = function(value){
+var BinarySearchTree = function(value, parent){
+  this.value = value;
+  this.parent = parent || null;
+  this.left;
+  this.right;
 };
 
+BinarySearchTree.prototype.insert = function(value) {
+  if (value < this.value) {
+    this.left ? this.left.insert(value) : this.left = new BinarySearchTree(value, this);
+  } else {
+    this.right ? this.right.insert(value) : this.right = new BinarySearchTree(value, this);
+  }
+};
 
-/*
- * Complexity: What is the time complexity of the above functions?
- */
+BinarySearchTree.prototype.contains = function(value) {
+  if (this.value === value) { return true; }
+  return (!!this.left && this.left.contains(value)) ||
+    (!!this.right && this.right.contains(value));
+};
+
+BinarySearchTree.prototype.depthFirstLog = function(callback) {
+  callback(this.value);
+  this.left && this.left.depthFirstLog(callback);
+  this.right && this.right.depthFirstLog(callback);
+};
