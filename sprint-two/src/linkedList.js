@@ -22,24 +22,20 @@ var makeLinkedList = function(){
   list.contains = function(target){
     var current = list.head;
     while(current) {
-      console.log(current);
       if (current.value === target) {
         return true;
-      }
+      }  
       current = current.next;
     }
     return false;
   };
-
   return list;
 };
 
 var makeNode = function(value){
   var node = {};
-
   node.value = value;
   node.next = null;
-
   return node;
 };
 
