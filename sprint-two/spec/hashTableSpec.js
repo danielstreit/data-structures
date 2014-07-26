@@ -41,6 +41,12 @@ describe('hashTable', function() {
     window.getIndexBelowMaxForKey = oldHashFunction;
   });
 
+  it('should override the stored value if the same key is entered', function() {
+    hashTable.insert('k', 'bad');
+    hashTable.insert('k', 'good');
+    expect(hashTable.retrieve('k')).to.equal('good');
+  });
+
   // (Extra credit! Remove the extra "x" when you want the following tests to run)
   xit('should double in size when needed', function() {
     _.each(people, function(person) {
