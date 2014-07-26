@@ -2,6 +2,10 @@ var HashTable = function(){
   this._limit = 8;
   this._size = 0;
   this._storage = makeLimitedArray(this._limit);
+  this.maxLoadFactor = .75;
+  this.expandRate = 2;
+  this.minLoadFactor = .25;
+  this.collapseRate = .5;
 };
 
 HashTable.prototype.insert = function(k, v){
@@ -22,16 +26,18 @@ HashTable.prototype.insert = function(k, v){
 
   // If the key is not already in the hashtable, insert and return it
   this._storage.get(i).push([k, v]);
-  this._size++;
+  ++this._size / this._limit > this.maxLoadFactor && this._rehash(this.expandRate);
   return v;
 };
 
 HashTable.prototype.retrieve = function(k){
   var i = getIndexBelowMaxForKey(k, this._limit);
   var bucket = this._storage.get(i);
-  for (var j = 0; j < bucket.length; j++) {
-    if (bucket[j][0] === k) {
-      return bucket[j][1];
+  if(bucket) {
+    for (var j = 0; j < bucket.length; j++) {
+      if (bucket[j][0] === k) {
+        return bucket[j][1];
+      }
     }
   }
   return null;
@@ -47,4 +53,17 @@ HashTable.prototype.remove = function(k){
     }
   });
   this._storage.get(i).splice(bIndex, 1);
+  --this._size / this._limit < this.minLoadFactor && this._rehash(this.collapseRate);
 };
+
+HashTable.prototype._rehash = function(resize) {
+  this._limit = this._limit * resize;
+  this._size = 0;
+  var oldStorage = this._storage;
+  this._storage = makeLimitedArray(this._limit);
+  oldStorage.each(function(bucket) {
+    bucket && bucket.forEach(function(kvPair) {
+      this.insert(kvPair[0], kvPair[1]);
+    }.bind(this));
+  }.bind(this));
+}
