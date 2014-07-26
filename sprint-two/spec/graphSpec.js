@@ -12,6 +12,7 @@ describe('graph', function() {
     expect(graph.getEdge).to.be.a("function");
     expect(graph.addEdge).to.be.a("function");
     expect(graph.removeEdge).to.be.a("function");
+    expect(graph.forEachNode).to.be.a("function");
   });
 
   it('should store values as nodes that were inserted', function() {
@@ -55,6 +56,17 @@ describe('graph', function() {
     graph.removeEdge('jacket', 'hat');
     expect(graph.contains('hat')).to.equal(false);
     expect(graph.contains('jacket')).to.equal(false);
+  });
+
+  it('should call a given function on each node', function() {
+    var arr = [];
+    graph.addNode('apples');
+    graph.addNode('bananas');
+    graph.addNode('oranges', 'bananas');
+    graph.forEachNode(function(value) {
+      arr.push(value);
+    });
+    expect(arr.length).to.eql(3);
   });
 
 });
