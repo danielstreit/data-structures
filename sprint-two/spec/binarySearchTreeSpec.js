@@ -51,4 +51,19 @@ describe('binarySearchTree', function() {
       expect(testArray[i]).to.equal(answer[i]);
     }
   });
+
+  it('should execute breadthFirstLog in the correct order', function() {
+    var buildTree = [2,10,1,3,7,11,0,4,6,8,66,8.5];
+    for (var i = 0; i < buildTree.length; i++) {
+      binarySearchTree.insert(buildTree[i]);
+    }
+    var testArray = [];
+    var answer = [5,2,10,1,3,7,11,0,4,6,8,66,8.5];
+    binarySearchTree.breadthFirstLog(function(value) {
+      testArray.push(value);
+    });
+    for(var i = 0; i < answer.length; i++) {
+      expect(testArray[i]).to.equal(answer[i]);
+    }
+  });
 });
