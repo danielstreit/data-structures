@@ -1,15 +1,16 @@
-var makeTree = function(value){
+var makeTree = function(value, parent){
   var newTree = {};
   _.extend(newTree, treeMethods);
   newTree.value = value;
   newTree.children = [];
+  newTree.parent = parent || null;
   return newTree;
 };
 
 var treeMethods = {};
 
 treeMethods.addChild = function(value){
-  this.children.push(makeTree(value));
+  this.children.push(makeTree(value, this));
 };
 
 treeMethods.contains = function(target){
@@ -18,3 +19,9 @@ treeMethods.contains = function(target){
     return mem || el.contains(target);
   }, false);
 };
+
+treeMethods.removeFromParent = function() {
+  var i = this.parent.children.indexOf(this);
+  this.parent.children.splice(i, 1);
+  return this;
+}
