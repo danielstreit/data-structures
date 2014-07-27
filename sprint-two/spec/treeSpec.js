@@ -51,4 +51,15 @@ describe('tree', function() {
     expect(brokenOff.contains(5)).to.equal(true);
   });
 
+  it('should be able to traverse the tree, calling a given function on every node', function() {
+    tree.addChild(2);
+    tree.addChild(3);
+    tree.children[0].addChild(5);
+    var testArr = [];
+    tree.traverse(function(value) {
+      testArr.push(value);
+    });
+    expect(testArr.length).to.equal(4);
+  });
+
 });
