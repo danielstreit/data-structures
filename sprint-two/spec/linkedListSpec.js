@@ -63,6 +63,8 @@ describe('linkedList', function() {
     linkedList.addToHead(2);
     linkedList.addToHead(3);
     expect(linkedList.removeTail()).to.equal(1);
+    expect(linkedList.removeTail()).to.equal(2);
+    expect(linkedList.removeTail()).to.equal(3);
   });
 
   // add more tests here to test the functionality of linkedList
