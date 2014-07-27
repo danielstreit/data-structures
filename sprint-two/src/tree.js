@@ -25,3 +25,10 @@ treeMethods.removeFromParent = function() {
   this.parent.children.splice(i, 1);
   return this;
 }
+
+treeMethods.traverse = function(callback) {
+  callback(this.value);
+  this.children.forEach(function(node) {
+    node.traverse(callback);
+  });
+}
